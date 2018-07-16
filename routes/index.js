@@ -21,12 +21,15 @@ router.post("/register",function(req,res){
     User.register(newUser,req.body.password,function(err,user){
         if(err){
             req.flash("error",err.message);
-            return res.render("register");
+            res.redirect("/login");
         }
-        passport.authenticate("local")(req,res,function(){
-            req.flash("success","Welcome to YelpCamp " + user.username);
-            res.redirect("/campgrounds");
-        });
+        else{
+            passport.authenticate("local")(req,res,function(){
+                req.flash("success","Welcome to YelpCamp " + user.username);
+                res.redirect("/campgrounds");
+            });
+        }
+        
     });
 });
 
